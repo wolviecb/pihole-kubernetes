@@ -3,9 +3,9 @@ entries:
   pihole:
   - apiVersion: v1
     appVersion: 2023.05.2
-    created: "2023-08-18T19:59:16.039086962+02:00"
+    created: "2023-09-13T08:56:49.636055249+02:00"
     description: Installs pihole in kubernetes
-    digest: fd5cb81dc245a386c65986712c9f61ac4b8ce7c293f3bf9899c4e6a839cc2b22
+    digest: f708d100230731936653918fe0d2fdcc3cce1b34138e21e10c86a572ee08f749
     home: https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
     icon: https://i2.wp.com/pi-hole.net/wp-content/uploads/2016/12/Vortex-R.png
     maintainers:
@@ -18,6 +18,6 @@ entries:
     - https://github.com/pi-hole
     - https://github.com/pi-hole/docker-pi-hole
     urls:
-    - pihole-2.18.1.tgz
-    version: 2.18.1
-generated: "2023-08-18T19:59:16.036559209+02:00"
+    - https://github.com/wolviecb/pihole-kubernetes/pihole-2.18.2.tgz
+    version: 2.18.2
+generated: "2023-09-13T08:56:49.63355068+02:00"
