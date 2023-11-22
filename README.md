@@ -1,4 +1,4 @@
-# mojo2600.github.io
+# wolviecb.github.io
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-27-blue.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -12,18 +12,18 @@ Further documentation including chart keys, types, and default values is at http
 To install the repo just run:
 
 ```bash
-helm repo add mojo2600 https://mojo2600.github.io/pihole-kubernetes/
+helm repo add pihole-k8s https://wolviecb.github.io/pihole-kubernetes/
 helm repo update
 ```
 
 ### Helm Charts
 
-* [pihole](https://mojo2600.github.io/pihole-kubernetes)
+* [pihole](https://wolviecb.github.io/pihole-kubernetes)
 
   ```bash
-  helm install your-release mojo2600/pihole
+  helm install your-release pihole-k8s/pihole
   ```
-  
+
 
 ## Contributors ✨
 
