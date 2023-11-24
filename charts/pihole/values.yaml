@@ -61,8 +61,7 @@ serviceDns:
     # metallb.universe.tf/allow-shared-ip: pihole-svc
 
   # -- Labels for the DNS service
-  extraLabels:
-    {}
+  extraLabels: {}
 
 # -- Configuration for the DHCP service on port 67
 serviceDhcp:
@@ -92,8 +91,7 @@ serviceDhcp:
     # metallb.universe.tf/address-pool: network-services
     # metallb.universe.tf/allow-shared-ip: pihole-svc
   # -- Labels for the DHCP service
-  extraLabels:
-    {}
+  extraLabels: {}
 
 # -- Configuration for the web interface service
 serviceWeb:
@@ -137,8 +135,7 @@ serviceWeb:
     # metallb.universe.tf/allow-shared-ip: pihole-svc
 
   # -- Labels for the web interface service
-  extraLabels:
-    {}
+  extraLabels: {}
 
 virtualHost: pi.hole
 
@@ -320,6 +317,43 @@ doh:
       # -- defines the timeout in secondes for the liveness probe
       timeoutSeconds: 5
 
+dnscryptProxy:
+  # -- Set to true to enable the dnscrypt-proxy sidecar container
+  enabled: false
+  image:
+    repository: klutchell/dnscrypt-proxy
+    tag: 2.1.4
+    pullPolicy: IfNotPresent
+  # -- Define the port the dnscrypt-proxy listen for querys
+  containerPort: 5353
+  # Sets the configuration for the dnscrypt-proxy, for details check https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Configuration
+  config: |
+    listen_addresses = ['0.0.0.0:5353']
+    log_level = 1
+    ipv4_servers = true
+    ipv6_servers = false
+    dnscrypt_servers = true
+    doh_servers = false
+    odoh_servers = false
+    require_dnssec = true
+    bootstrap_resolvers = ['9.9.9.11:53', '8.8.8.8:53']
+    lb_strategy = 'p2'
+    require_nolog = true
+    require_nofilter = true
+    [sources]
+      [sources.public-resolvers]
+        urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md', 'https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md', 'https://ipv6.download.dnscrypt.info/resolvers-list/v3/public-resolvers.md']
+        cache_file = 'public-resolvers.md'
+        minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+        refresh_delay = 72
+        prefix = ''
+  resources:
+    limits:
+      memory: 128Mi
+    # requests:
+    #   cpu: 50m
+    #   memory: 128Mi
+
 dnsmasq:
   # -- Add upstream dns servers. All lines will be added to the pihole dnsmasq configuration
   upstreamServers: []
@@ -493,7 +527,8 @@ podAnnotations:
   # prometheus.io/scrape: 'true'
 
 # -- any initContainers you might want to run before starting pihole
-extraInitContainers: []
+extraInitContainers:
+  []
   # - name: copy-config
   #   image: busybox
   #   args:

@@ -75,6 +75,33 @@ spec:
         {{- if .Values.extraContainers }}
         {{- toYaml .Values.extraContainers | nindent 8 }}
         {{- end }}
+        {{- if .Values.dnscryptProxy.enabled }}
+        - name: dnscrypt-proxy
+          image: "{{ .Values.dnscryptProxy.image.repository }}:{{ .Values.dnscryptProxy.image.tag }}"
+          imagePullPolicy: {{ .Values.dnscryptProxy.image.pullPolicy }}
+          env:
+            - name: TZ
+              value: UTC
+          ports:
+            - name: dns-tcp
+              containerPort: {{ .Values.dnscryptProxy.containerPort }}
+              protocol: TCP
+            - name: dns-udp
+              containerPort: {{ .Values.dnscryptProxy.containerPort }}
+              protocol: UDP
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.dnscryptProxy.containerPort }}
+          startupProbe:
+            failureThreshold: 30
+            periodSeconds: 5
+            tcpSocket:
+              port: {{ .Values.dnscryptProxy.containerPort }}
+          volumeMounts:
+          - mountPath: /config/dnscrypt-proxy.toml
+            name: {{ template "pihole.fullname" . }}-dnscrypt-config
+            subPath: dnscrypt-proxy.toml
+        {{- end }}
         {{- if .Values.monitoring.sidecar.enabled }}
         - name: exporter
           image: "{{ .Values.monitoring.sidecar.image.repository }}:{{ .Values.monitoring.sidecar.image.tag }}"
@@ -158,6 +185,11 @@ spec:
             value: "127.0.0.1#5053"
           - name: DNS2
             value: "127.0.0.1#5053"
+          {{- else if .Values.dnscryptProxy.enabled}}
+          - name: 'DNS1'
+            value: "127.0.0.1#5353"
+          - name: DNS2
+            value: "127.0.0.1#5353"
           {{- else }}
           {{- if .Values.DNS1 }}
           - name: 'PIHOLE_DNS_'
@@ -212,7 +244,6 @@ spec:
             initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
             failureThreshold: {{ .Values.probes.liveness.failureThreshold }}
             timeoutSeconds: {{ .Values.probes.liveness.timeoutSeconds }}
-            
           {{- end }}
           {{- if .Values.probes.readiness.enabled }}
           readinessProbe:
@@ -334,6 +365,11 @@ spec:
           defaultMode: 420
           name: {{ template "pihole.fullname" . }}-regex
         name: regex
+      {{- end }}
+      {{- if .Values.dnscryptProxy.enabled }}
+      - configMap:
+          name: {{ template "pihole.fullname" . }}-dnscrypt-proxy-conf
+        name: {{ template "pihole.fullname" . }}-dnscrypt-conf
       {{- end }}
       {{- range $key, $value := .Values.extraVolumes }}
       - name: {{ $key }}
