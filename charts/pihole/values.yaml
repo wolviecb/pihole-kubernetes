@@ -61,8 +61,7 @@ serviceDns:
     # metallb.universe.tf/allow-shared-ip: pihole-svc
 
   # -- Labels for the DNS service
-  extraLabels:
-    {}
+  extraLabels: {}
 
 # -- Configuration for the DHCP service on port 67
 serviceDhcp:
@@ -92,8 +91,7 @@ serviceDhcp:
     # metallb.universe.tf/address-pool: network-services
     # metallb.universe.tf/allow-shared-ip: pihole-svc
   # -- Labels for the DHCP service
-  extraLabels:
-    {}
+  extraLabels: {}
 
 # -- Configuration for the web interface service
 serviceWeb:
@@ -137,8 +135,7 @@ serviceWeb:
     # metallb.universe.tf/allow-shared-ip: pihole-svc
 
   # -- Labels for the web interface service
-  extraLabels:
-    {}
+  extraLabels: {}
 
 virtualHost: pi.hole
 
@@ -528,7 +525,8 @@ podAnnotations:
   # prometheus.io/scrape: 'true'
 
 # -- any initContainers you might want to run before starting pihole
-extraInitContainers: []
+extraInitContainers:
+  []
   # - name: copy-config
   #   image: busybox
   #   args:
