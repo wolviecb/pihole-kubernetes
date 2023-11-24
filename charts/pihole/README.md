@@ -2,27 +2,23 @@
 
 Installs pihole in kubernetes
 
-![Version: 2.9.3](https://img.shields.io/badge/Version-2.9.3-informational?style=flat-square) ![AppVersion: 2022.09.1](https://img.shields.io/badge/AppVersion-2022.09.1-informational?style=flat-square) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+![Version: 2.19.0](https://img.shields.io/badge/Version-2.19.0-informational?style=flat-square) ![AppVersion: 2023.11.0](https://img.shields.io/badge/AppVersion-2023.11.0-informational?style=flat-square) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-27-blue.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Source Code
 
-* <https://github.com/MoJo2600/pihole-kubernetes/tree/master/charts/pihole>
+* <https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole>
 * <https://pi-hole.net/>
 * <https://github.com/pi-hole>
 * <https://github.com/pi-hole/docker-pi-hole>
 
 ## Installation
 
-Jeff Geerling on YouTube made a video about the installation of this chart:
-
-[![Jeff Geerling on YouTube](https://img.youtube.com/vi/IafVCHkJbtI/0.jpg)](https://youtu.be/IafVCHkJbtI?t=2655)
-
 ### Add Helm repository
 
 ```shell
-helm repo add mojo2600 https://mojo2600.github.io/pihole-kubernetes/
+helm repo add pihole-k8s https://wolviecb.github.io/pihole-kubernetes/
 helm repo update
 ```
 
@@ -42,7 +38,7 @@ The following items can be set via `--set` flag during installation or configure
 dnsmasq:
   customDnsEntries:
     - address=/nas/192.168.178.10
- 
+
   customCnameEntries:
     - cname=foo.nas,nas
 
@@ -173,13 +169,21 @@ The following table lists the configurable parameters of the pihole chart and th
 | affinity | object | `{}` |  |
 | antiaff.avoidRelease | string | `"pihole1"` | Here you can set the pihole release (you set in `helm install <releasename> ...`) you want to avoid |
 | antiaff.enabled | bool | `false` | set to true to enable antiaffinity (example: 2 pihole DNS in the same cluster) |
+| antiaff.namespaces | list | `[]` | Here you can pass namespaces to be part of those inclueded in anti-affinity |
 | antiaff.strict | bool | `true` | Here you can choose between preferred or required |
-| antiaff.namespaces | '[]' | list of namespaces to include in anti-affinity settings
 | blacklist | object | `{}` | list of blacklisted domains to import during initial start of the container |
+| capabilities | object | `{}` |  |
 | customVolumes.config | object | `{}` | any volume type can be used here |
 | customVolumes.enabled | bool | `false` | set this to true to enable custom volumes |
 | dnsHostPort.enabled | bool | `false` | set this to true to enable dnsHostPort |
 | dnsHostPort.port | int | `53` | default port for this pod |
+| dnscryptProxy.config | string | `"listen_addresses = ['0.0.0.0:5353']\nlog_level = 1\nipv4_servers = true\nipv6_servers = false\ndnscrypt_servers = true\ndoh_servers = false\nodoh_servers = false\nrequire_dnssec = true\nbootstrap_resolvers = ['9.9.9.11:53', '8.8.8.8:53']\nlb_strategy = 'p2'\nrequire_nolog = true\nrequire_nofilter = true\n[sources]\n  [sources.public-resolvers]\n    urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md', 'https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md', 'https://ipv6.download.dnscrypt.info/resolvers-list/v3/public-resolvers.md']\n    cache_file = 'public-resolvers.md'\n    minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'\n    refresh_delay = 72\n    prefix = ''\n"` |  |
+| dnscryptProxy.containerPort | int | `5353` | Define the port the dnscrypt-proxy listen for querys |
+| dnscryptProxy.enabled | bool | `false` | Set to true to enable the dnscrypt-proxy sidecar container |
+| dnscryptProxy.image.pullPolicy | string | `"IfNotPresent"` |  |
+| dnscryptProxy.image.repository | string | `"klutchell/dnscrypt-proxy"` |  |
+| dnscryptProxy.image.tag | string | `"2.1.4"` |  |
+| dnscryptProxy.resources.limits.memory | string | `"128Mi"` |  |
 | dnsmasq.additionalHostsEntries | list | `[]` | Dnsmasq reads the /etc/hosts file to resolve ips. You can add additional entries if you like |
 | dnsmasq.customCnameEntries | list | `[]` | Here we specify custom cname entries that should point to `A` records or elements in customDnsEntries array. The format should be:  - cname=cname.foo.bar,foo.bar  - cname=cname.bar.foo,bar.foo  - cname=cname record,dns record |
 | dnsmasq.customDnsEntries | list | `[]` | Add custom dns entries to override the dns resolution. All lines will be added to the pihole dnsmasq configuration. |
@@ -200,6 +204,7 @@ The following table lists the configurable parameters of the pihole chart and th
 | doh.repository | string | `"crazymax/cloudflared"` |  |
 | doh.tag | string | `"latest"` |  |
 | dualStack.enabled | bool | `false` | set this to true to enable creation of DualStack services or creation of separate IPv6 services if `serviceDns.type` is set to `"LoadBalancer"` |
+| extraContainers | list | `[]` |  |
 | extraEnvVars | object | `{}` | extraEnvironmentVars is a list of extra enviroment variables to set for pihole to use |
 | extraEnvVarsSecret | object | `{}` | extraEnvVarsSecret is a list of secrets to load in as environment variables. |
 | extraInitContainers | list | `[]` | any initContainers you might want to run before starting pihole |
@@ -231,36 +236,36 @@ The following table lists the configurable parameters of the pihole chart and th
 | podDnsConfig.nameservers[1] | string | `"8.8.8.8"` |  |
 | podDnsConfig.policy | string | `"None"` |  |
 | privileged | string | `"false"` | should container run in privileged mode |
-| capabilities | object | `{}` | Linux capabilities that container should run with |
-| probes | object | `{"liveness":{"type": "httpGet","enabled":true,"failureThreshold":10,"initialDelaySeconds":60,"port":"http","scheme":"HTTP","timeoutSeconds":5},"readiness":{"enabled":true,"failureThreshold":3,"initialDelaySeconds":60,"port":"http","scheme":"HTTP","timeoutSeconds":5}}` | Probes configuration |
-| probes.liveness.enabled | bool | `true` | Generate a liveness probe |
-| probes.liveness.type | string | `httpGet` | Defines the type of liveness probe. (httpGet, command) |
-| probes.liveness.command | list | [] | A list of commands to execute as a liveness probe (Requires `type` to be set to `command`) |
+| probes | object | `{"liveness":{"enabled":true,"failureThreshold":10,"initialDelaySeconds":60,"port":"http","scheme":"HTTP","timeoutSeconds":5,"type":"httpGet"},"readiness":{"enabled":true,"failureThreshold":3,"initialDelaySeconds":60,"port":"http","scheme":"HTTP","timeoutSeconds":5}}` | Probes configuration |
+| probes.liveness.type | string | `"httpGet"` | Generate a liveness probe 'type' defaults to httpGet, can be set to 'command' to use a command type liveness probe. |
 | probes.readiness.enabled | bool | `true` | Generate a readiness probe |
 | regex | object | `{}` | list of blacklisted regex expressions to import during initial start of the container |
 | replicaCount | int | `1` | The number of replicas |
 | resources | object | `{}` | lines, adjust them as necessary, and remove the curly braces after 'resources:'. |
-| serviceDhcp | object | `{"annotations":{},"enabled":true,"externalTrafficPolicy":"Local","loadBalancerIP":"","loadBalancerIPv6":"","nodePort":"","port":67,"type":"NodePort"}` | Configuration for the DHCP service on port 67 |
+| serviceDhcp | object | `{"annotations":{},"enabled":true,"externalTrafficPolicy":"Local","extraLabels":{},"loadBalancerIP":"","loadBalancerIPv6":"","nodePort":"","port":67,"type":"NodePort"}` | Configuration for the DHCP service on port 67 |
 | serviceDhcp.annotations | object | `{}` | Annotations for the DHCP service |
 | serviceDhcp.enabled | bool | `true` | Generate a Service resource for DHCP traffic |
 | serviceDhcp.externalTrafficPolicy | string | `"Local"` | `spec.externalTrafficPolicy` for the DHCP Service |
+| serviceDhcp.extraLabels | object | `{}` | Labels for the DHCP service |
 | serviceDhcp.loadBalancerIP | string | `""` | A fixed `spec.loadBalancerIP` for the DHCP Service |
 | serviceDhcp.loadBalancerIPv6 | string | `""` | A fixed `spec.loadBalancerIP` for the IPv6 DHCP Service |
 | serviceDhcp.nodePort | string | `""` | Optional node port for the DHCP service |
 | serviceDhcp.port | int | `67` | The port of the DHCP service |
 | serviceDhcp.type | string | `"NodePort"` | `spec.type` for the DHCP Service |
-| serviceDns | object | `{"annotations":{},"externalTrafficPolicy":"Local","loadBalancerIP":"","loadBalancerIPv6":"","mixedService":false,"nodePort":"","port":53,"type":"NodePort"}` | Configuration for the DNS service on port 53 |
+| serviceDns | object | `{"annotations":{},"externalTrafficPolicy":"Local","extraLabels":{},"loadBalancerIP":"","loadBalancerIPv6":"","mixedService":false,"nodePort":"","port":53,"type":"NodePort"}` | Configuration for the DNS service on port 53 |
 | serviceDns.annotations | object | `{}` | Annotations for the DNS service |
 | serviceDns.externalTrafficPolicy | string | `"Local"` | `spec.externalTrafficPolicy` for the DHCP Service |
+| serviceDns.extraLabels | object | `{}` | Labels for the DNS service |
 | serviceDns.loadBalancerIP | string | `""` | A fixed `spec.loadBalancerIP` for the DNS Service |
 | serviceDns.loadBalancerIPv6 | string | `""` | A fixed `spec.loadBalancerIP` for the IPv6 DNS Service |
 | serviceDns.mixedService | bool | `false` | deploys a mixed (TCP + UDP) Service instead of separate ones |
 | serviceDns.nodePort | string | `""` | Optional node port for the DNS service |
 | serviceDns.port | int | `53` | The port of the DNS service |
 | serviceDns.type | string | `"NodePort"` | `spec.type` for the DNS Service |
-| serviceWeb | object | `{"annotations":{},"externalTrafficPolicy":"Local","http":{"enabled":true,"nodePort":"","port":80},"https":{"enabled":true,"nodePort":"","port":443},"loadBalancerIP":"","loadBalancerIPv6":"","type":"ClusterIP"}` | Configuration for the web interface service |
+| serviceWeb | object | `{"annotations":{},"externalTrafficPolicy":"Local","extraLabels":{},"http":{"enabled":true,"nodePort":"","port":80},"https":{"enabled":true,"nodePort":"","port":443},"loadBalancerIP":"","loadBalancerIPv6":"","type":"ClusterIP"}` | Configuration for the web interface service |
 | serviceWeb.annotations | object | `{}` | Annotations for the DHCP service |
 | serviceWeb.externalTrafficPolicy | string | `"Local"` | `spec.externalTrafficPolicy` for the web interface Service |
+| serviceWeb.extraLabels | object | `{}` | Labels for the web interface service |
 | serviceWeb.http | object | `{"enabled":true,"nodePort":"","port":80}` | Configuration for the HTTP web interface listener |
 | serviceWeb.http.enabled | bool | `true` | Generate a service for HTTP traffic |
 | serviceWeb.http.nodePort | string | `""` | Optional node port for the web HTTP service |
@@ -284,7 +289,7 @@ The following table lists the configurable parameters of the pihole chart and th
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| MoJo2600 | <christian.erhardt@mojo2k.de> |  |
+| wolviecb | <wolvie@gmail.com> |  |
 
 ## Remarks
 
@@ -302,7 +307,7 @@ MetalLB 0.7.3 has a bug, where the service is not announced anymore, when the po
 
 ## Contributing
 
-Feel free to contribute by making a [pull request](https://github.com/MoJo2600/pihole-kubernetes/pull/new/master).
+Feel free to contribute by making a [pull request](https://github.com/wolviecb/pihole-kubernetes/pull/new/master).
 
 Please read [Contribution Guide](../../CONTRIBUTING.md) for more information on how you can contribute to this Chart.
 
@@ -398,5 +403,3 @@ Thanks goes to these wonderful people:
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-----------------------------------------------
-Autogenerated from chart metadata using [helm-docs v1.10.0](https://github.com/norwoodj/helm-docs/releases/v1.10.0)
