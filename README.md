@@ -3,9 +3,11 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-27-blue.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-[Helm](https://helm.sh) repo for different charts which can be installed on [Kubernetes](https://kubernetes.io)
+**This repo is a fork from [MoJo2600/pihole-kubernetes](https://github.com/MoJo2600/pihole-kubernetes)**
 
-Further documentation including chart keys, types, and default values is at https://hub.helm.sh/charts/mojo2600/pihole
+[Helm](https://helm.sh) repo for pihole chart which can be installed on [Kubernetes](https://kubernetes.io)
+
+Further documentation including chart keys, types, and default values is at https://hub.helm.sh/charts/wolviecb/pihole
 
 ### Add Helm repository
 

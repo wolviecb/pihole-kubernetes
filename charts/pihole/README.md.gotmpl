@@ -11,14 +11,10 @@
 
 ## Installation
 
-Jeff Geerling on YouTube made a video about the installation of this chart:
-
-[![Jeff Geerling on YouTube](https://img.youtube.com/vi/IafVCHkJbtI/0.jpg)](https://youtu.be/IafVCHkJbtI?t=2655)
-
 ### Add Helm repository
 
 ```shell
-helm repo add mojo2600 https://mojo2600.github.io/pihole-kubernetes/
+helm repo add pihole-k8s https://wolviecb.github.io/pihole-kubernetes/
 helm repo update
 ```
 
@@ -38,7 +34,7 @@ The following items can be set via `--set` flag during installation or configure
 dnsmasq:
   customDnsEntries:
     - address=/nas/192.168.178.10
-  
+
   customCnameEntries:
     - cname=foo.nas,nas
 
@@ -175,7 +171,7 @@ MetalLB 0.7.3 has a bug, where the service is not announced anymore, when the po
 
 ## Contributing
 
-Feel free to contribute by making a [pull request](https://github.com/MoJo2600/pihole-kubernetes/pull/new/master).
+Feel free to contribute by making a [pull request](https://github.com/wolviecb/pihole-kubernetes/pull/new/master).
 
 Please read [Contribution Guide](../../CONTRIBUTING.md) for more information on how you can contribute to this Chart.
 
