@@ -99,7 +99,7 @@ spec:
               port: {{ .Values.dnscryptProxy.containerPort }}
           volumeMounts:
           - mountPath: /config/dnscrypt-proxy.toml
-            name: {{ template "pihole.fullname" . }}-dnscrypt-config
+            name: {{ template "pihole.fullname" . }}-dnscrypt-proxy-conf
             subPath: dnscrypt-proxy.toml
         {{- end }}
         {{- if .Values.monitoring.sidecar.enabled }}
