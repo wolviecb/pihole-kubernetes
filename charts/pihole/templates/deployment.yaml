@@ -368,8 +368,8 @@ spec:
       {{- end }}
       {{- if .Values.dnscryptProxy.enabled }}
       - configMap:
-          name: {{ template "pihole.fullname" . }}-dnscrypt-conf
-        name: {{ template "pihole.fullname" . }}-dnscrypt-conf
+          name: {{ template "pihole.fullname" . }}-dnscrypt-proxy-conf
+        name: {{ template "pihole.fullname" . }}-dnscrypt-proxy-conf
       {{- end }}
       {{- range $key, $value := .Values.extraVolumes }}
       - name: {{ $key }}
