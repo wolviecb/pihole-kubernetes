@@ -2,7 +2,25 @@ apiVersion: v1
 entries:
   pihole:
   - apiVersion: v1
-    created: "2024-07-29T11:39:41.685635349+02:00"
+    created: "2024-07-29T12:01:06.945967502+02:00"
+    description: Installs pihole in kubernetes
+    digest: 51982f740f9121b8c86549be11a7d0e7c38580efca38a2f66877ea3162f1f0d6
+    home: https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
+    icon: https://i2.wp.com/pi-hole.net/wp-content/uploads/2016/12/Vortex-R.png
+    maintainers:
+    - email: wolvie@gmail.com
+      name: wolviecb
+    name: pihole
+    sources:
+    - https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
+    - https://pi-hole.net/
+    - https://github.com/pi-hole
+    - https://github.com/pi-hole/docker-pi-hole
+    urls:
+    - pihole-2.19.11.tgz
+    version: 2.19.11
+  - apiVersion: v1
+    created: "2024-07-29T12:01:06.937680822+02:00"
     description: Installs pihole in kubernetes
     digest: 1a1b3a0bafb6b99f08be5f4abf68ab094e4d974ad4cd5112255abb42121f2d06
     home: https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
@@ -21,7 +39,7 @@ entries:
     version: 2.19.10
   - apiVersion: v1
     appVersion: 2024.06.0
-    created: "2024-07-29T11:39:41.727483105+02:00"
+    created: "2024-07-29T12:01:06.986437964+02:00"
     description: Installs pihole in kubernetes
     digest: 7d4470ebab93cbffd9d96a663e1aabb77b109b6233dfc19c5a3e29c3d5c79729
     home: https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
@@ -40,7 +58,7 @@ entries:
     version: 2.19.8
   - apiVersion: v1
     appVersion: 2024.05.0
-    created: "2024-07-29T11:39:41.720930903+02:00"
+    created: "2024-07-29T12:01:06.980842901+02:00"
     description: Installs pihole in kubernetes
     digest: 5fc00ae88a94cb97157d8b6ca3e2ac6044a7137465c6d5a5dad6427e87bd6d5b
     home: https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
@@ -59,7 +77,7 @@ entries:
     version: 2.19.7
   - apiVersion: v1
     appVersion: 2024.03.2
-    created: "2024-07-29T11:39:41.714134204+02:00"
+    created: "2024-07-29T12:01:06.975446169+02:00"
     description: Installs pihole in kubernetes
     digest: 6f905c990e998a2b5981ff346585a7b0fb7f6763571bbce8b391ef18f8a3db5e
     home: https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
@@ -78,7 +96,7 @@ entries:
     version: 2.19.6
   - apiVersion: v1
     appVersion: 2024.03.2
-    created: "2024-07-29T11:39:41.702983203+02:00"
+    created: "2024-07-29T12:01:06.969634553+02:00"
     description: Installs pihole in kubernetes
     digest: da3535244981e510ee31911eb537bbfb4be6c8b6ea9d351321bbc1b3b99ee263
     home: https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
@@ -97,7 +115,7 @@ entries:
     version: 2.19.5
   - apiVersion: v1
     appVersion: 2024.01.0
-    created: "2024-07-29T11:39:41.697173011+02:00"
+    created: "2024-07-29T12:01:06.963168889+02:00"
     description: Installs pihole in kubernetes
     digest: 656758e496fb78db5031b685d8311bb1dd023c8f599b119ef6dd4f66b2bf9f64
     home: https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
@@ -116,7 +134,7 @@ entries:
     version: 2.19.4
   - apiVersion: v1
     appVersion: 2023.11.0
-    created: "2024-07-29T11:39:41.691517503+02:00"
+    created: "2024-07-29T12:01:06.953576004+02:00"
     description: Installs pihole in kubernetes
     digest: 0c21a3879e75aeb312382f82677951585d097c3cbe632153f1ec33acad0a25a6
     home: https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
@@ -135,7 +153,7 @@ entries:
     version: 2.19.3
   - apiVersion: v1
     appVersion: 2023.11.0
-    created: "2024-07-29T11:39:41.680014043+02:00"
+    created: "2024-07-29T12:01:06.93158858+02:00"
     description: Installs pihole in kubernetes
     digest: 47a47b2ce1d88fe307f09005cde286e776e05efc3cc90c0473ec1fd69020365d
     home: https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
@@ -154,7 +172,7 @@ entries:
     version: 2.18.4
   - apiVersion: v1
     appVersion: 2023.10.0
-    created: "2024-07-29T11:39:41.674200629+02:00"
+    created: "2024-07-29T12:01:06.924420443+02:00"
     description: Installs pihole in kubernetes
     digest: 55a8ee98d08106ce0211a7aed4b183b7b0779f6f3fcb04334741446acba1a2b2
     home: https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
@@ -173,7 +191,7 @@ entries:
     version: 2.18.3
   - apiVersion: v1
     appVersion: 2023.05.2
-    created: "2024-07-29T11:39:41.66464274+02:00"
+    created: "2024-07-29T12:01:06.917103919+02:00"
     description: Installs pihole in kubernetes
     digest: f708d100230731936653918fe0d2fdcc3cce1b34138e21e10c86a572ee08f749
     home: https://github.com/wolviecb/pihole-kubernetes/tree/master/charts/pihole
@@ -190,4 +208,4 @@ entries:
     urls:
     - pihole-2.18.2.tgz
     version: 2.18.2
-generated: "2024-07-29T11:39:41.659047916+02:00"
+generated: "2024-07-29T12:01:06.906535841+02:00"
