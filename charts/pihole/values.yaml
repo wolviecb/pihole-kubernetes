@@ -322,7 +322,7 @@ dnscryptProxy:
   enabled: false
   image:
     repository: klutchell/dnscrypt-proxy
-    tag: 2.1.5
+    tag: 2.1.7
     pullPolicy: IfNotPresent
   # -- Define the port the dnscrypt-proxy listen for querys
   containerPort: 5353
